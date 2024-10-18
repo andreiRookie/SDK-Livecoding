@@ -44,12 +44,6 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
     }
 
-//    override fun onNewIntent(intent: Intent?) {
-////        val data = intent?.getIntExtra(PROGRESS_DATA, 0)
-////        textView?.text = data.toString()
-//        super.onNewIntent(intent)
-//    }
-
     companion object {
         const val BROADCAST_ACTION = "action"
         const val PROGRESS_DATA = "data"

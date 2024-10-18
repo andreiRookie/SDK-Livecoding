@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class MyService : Service() {
 
-    private val scope = CoroutineScope(Dispatchers.IO)
+    private val scope = CoroutineScope(Dispatchers.Default)
 
     override fun onBind(p0: Intent?): IBinder? = null
 
@@ -18,9 +18,7 @@ class MyService : Service() {
         var progress = 0
 
         val intentWithProgress = Intent()
-        intentWithProgress.apply {
-            action = MainActivity.BROADCAST_ACTION
-        }
+        intentWithProgress.action = MainActivity.BROADCAST_ACTION
 
         scope.launch {
             while (progress <= 100) {
@@ -33,7 +31,6 @@ class MyService : Service() {
                 progress += 10
             }
         }
-
         return START_NOT_STICKY
     }
 }
