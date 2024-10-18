@@ -6,6 +6,8 @@ import android.os.IBinder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class MyService : Service() {
@@ -17,20 +19,21 @@ class MyService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         var progress = 0
 
-        val intentWithProgress = Intent()
-        intentWithProgress.action = MainActivity.BROADCAST_ACTION
-
         scope.launch {
             while (progress <= 100) {
 
                 delay(150L)
 
-                intentWithProgress.putExtra("progress", progress)
-                sendBroadcast(intentWithProgress)
+                _stateFlow.value = progress
 
                 progress += 10
             }
         }
         return START_NOT_STICKY
+    }
+
+    companion object {
+        private val _stateFlow = MutableStateFlow<Int>(0)
+        val stateFlow: StateFlow<Int> get() = _stateFlow
     }
 }
